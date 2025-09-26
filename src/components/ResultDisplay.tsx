@@ -6,7 +6,7 @@ interface ResultDisplayProps {
 }
 export const ResultDisplay: React.FC<ResultDisplayProps> = ({ result, isLoading }) => {
     return (
-        <div className="w-full h-full flex flex-col animate-fade-in" style={{ animationDelay: '0.2s' }}>
+        <div className="h-full flex flex-col animate-fade-in" style={{ animationDelay: '0.2s' }}>
             <h2 className="text-xl font-semibold text-brand-secondary mb-3">3. AI-Powered Result</h2>
             <div className="w-full flex-grow p-4 border-2 border-transparent rounded-2xl bg-brand-light shadow-lg min-h-[324px] flex items-center justify-center transition-all duration-300">
                 {isLoading ? (

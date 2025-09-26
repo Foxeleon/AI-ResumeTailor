@@ -1,6 +1,8 @@
 import React from "react";
 import { AutoExpandingTextarea } from "./AutoExpandingTextarea.tsx";
 import { ResultDisplay } from "./ResultDisplay.tsx";
+
+
 interface ThreeColumnLayoutProps {
     jobDescription: string;
     setJobDescription: (value: string) => void;
@@ -15,7 +17,7 @@ export const ThreeColumnLayout: React.FC<ThreeColumnLayoutProps> =
     {
         const isButtonDisabled = !jobDescription || !resumeText || isLoading;
         return (
-            <div className="w-full">
+            <div>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
                     <AutoExpandingTextarea
                         title="1. Job Description"

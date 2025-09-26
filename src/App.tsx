@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Header } from "./components/Header.tsx";
 import { ThreeColumnLayout } from "./components/ThreeColumnLayout.tsx";
+
+
 // TODO: Replace with your actual API Gateway URL after deploying the backend
 const API_ENDPOINT = "https://your-api-gateway-url.execute-api.us-east-1.amazonaws.com/prod/";
 function App() {
@@ -12,7 +14,6 @@ function App() {
     const handleTailor = async () => {
         setIsLoading(true);
         setError(null);
-        // We don't clear the result text immediately for a smoother UX
 
         try {
             const response = await fetch(API_ENDPOINT, {
@@ -35,7 +36,7 @@ function App() {
     };
     return (
         <div className="min-h-screen bg-gradient-to-br from-brand-background via-[#FEF7F0] to-[#FCEAE0] font-sans flex flex-col">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <Header />
                 <main className="flex-grow py-8">
                     <ThreeColumnLayout
@@ -60,4 +61,5 @@ function App() {
         </div>
     )
 }
+
 export default App;
