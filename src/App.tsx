@@ -60,7 +60,7 @@ function App() {
                 )}
             </main>
             <footer className="text-center p-4 text-sm text-gray-500 border-t border-gray-200 dark:border-gray-800">
-                <p>Проект для собеседования. Стек: React, Go, AWS Lambda.</p>
+                <p>Стек: React, Go, AWS Lambda.</p>
             </footer>
         </div>
     )
