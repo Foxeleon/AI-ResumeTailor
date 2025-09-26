@@ -58,10 +58,8 @@ type Choice struct {
 // It takes a request from API Gateway and returns a response.
 func HandleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	// 1. Get the OpenAI API key from the Lambda's environment variables.
-	// This is the secure way to store secrets.
 	apiKey := os.Getenv("OPENAI_API_KEY")
 	if apiKey == "" {
-		// If the key is not set, return a server error.
 		return events.APIGatewayProxyResponse{Body: "Error: OPENAI_API_KEY environment variable not set", StatusCode: 500}, nil
 	}
 
@@ -69,14 +67,12 @@ func HandleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (
 	var requestBody RequestBody
 	err := json.Unmarshal([]byte(request.Body), &requestBody)
 	if err != nil {
-		// If the JSON is malformed, return a bad request error.
 		return events.APIGatewayProxyResponse{Body: "Error: Invalid request body", StatusCode: 400}, nil
 	}
 
 	// 3. Construct the prompt for the OpenAI API.
-	// This is a crucial part: we give the AI a clear role and a precise task.
-	prompt := fmt.Sprintf(`You are an expert HR manager and professional resume writer.
-Your task is to tailor the following resume to perfectly match the given job description.
+	prompt := fmt.Sprintf(`You are an expert HR manager and professional resume writer. 
+Your task is to tailor the following resume to perfectly match the given job description. 
 Focus on highlighting the most relevant skills and experiences. Rewrite parts of the resume to use keywords from the job description.
 The output should be only the tailored resume text, without any introductory phrases like "Here is the tailored resume:".
 
@@ -94,13 +90,12 @@ The output should be only the tailored resume text, without any introductory phr
 
 	// 4. Create the request body for the OpenAI API call.
 	openAIReqBody := OpenAIRequest{
-		Model: "gpt-3.5-turbo", // Using a fast and cost-effective model.
+		Model: "gpt-4о", // Using a fast and cost-effective model.
 		Messages: []Message{
 			{Role: "user", Content: prompt},
 		},
 	}
-
-	// Encode the request body into JSON.
+	
 	reqBytes, err := json.Marshal(openAIReqBody)
 	if err != nil {
 		return events.APIGatewayProxyResponse{Body: "Error: Failed to create OpenAI request body", StatusCode: 500}, nil
@@ -122,4 +117,30 @@ The output should be only the tailored resume text, without any introductory phr
 	defer resp.Body.Close()
 
 	// 6. Parse the response from the OpenAI API.
-	respBody, _ := io.ReadAll(resp
+	respBody, _ := io.ReadAll(resp.Body)
+	var openAIResp OpenAIResponse
+	err = json.Unmarshal(respBody, &openAIResp)
+	if err != nil || len(openAIResp.Choices) == 0 {
+		return events.APIGatewayProxyResponse{Body: fmt.Sprintf("Error: Failed to parse OpenAI response. Raw: %s", string(respBody)), StatusCode: 502}, nil
+	}
+
+	// 7. Construct the successful response for the frontend.
+	finalResponse := ResponseBody{
+		TailoredResume: openAIResp.Choices[0].Message.Content,
+	}
+
+	finalRespBytes, _ := json.Marshal(finalResponse)
+
+	return events.APIGatewayProxyResponse{
+		StatusCode: 200,
+		Headers:    map[string]string{
+			"Content-Type": "application/json",
+			"Access-Control-Allow-Origin": "*",
+		},
+		Body:       string(finalRespBytes),
+	}, nil
+}
+
+func main() {
+	lambda.Start(HandleRequest)
+}
