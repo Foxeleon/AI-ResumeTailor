@@ -26,9 +26,15 @@ function App() {
             }
             const data = await response.json();
             setResultText(data.tailoredResume);
-        } catch (err: any) {
-            setError(err.message);
-            console.error("Fetch error:", err);
+        } catch (err) {
+            if (err instanceof Error) {
+                setError(err.message);
+                console.error("Fetch error:", err.message);
+            } else {
+                const errorMessage = 'An unexpected error occurred';
+                setError(errorMessage);
+                console.error("Fetch error:", err);
+            }
         } finally {
             setIsLoading(false);
         }
