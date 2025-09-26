@@ -1,16 +1,15 @@
 import React from 'react';
 import Textarea, { type TextareaAutosizeProps } from 'react-textarea-autosize';
-
 interface AutoExpandingTextareaProps extends TextareaAutosizeProps {
     title: string;
 }
 export const AutoExpandingTextarea: React.FC<AutoExpandingTextareaProps> = ({ title, ...props }) => {
     return (
-        <div className="w-full">
-            <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">{title}</h2>
+        <div className="w-full flex flex-col animate-fade-in">
+            <h2 className="text-xl font-semibold text-brand-secondary mb-3">{title}</h2>
             <Textarea
-                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-shadow duration-200"
-                minRows={10}
+                className="w-full flex-grow p-4 border-2 border-brand-accent/50 rounded-2xl bg-brand-light shadow-lg focus:ring-4 focus:ring-brand-primary/50 focus:outline-none transition-all duration-300 placeholder-brand-secondary/40 text-brand-secondary"
+                minRows={12}
                 {...props}
             />
         </div>

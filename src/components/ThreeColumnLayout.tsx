@@ -1,7 +1,6 @@
 import React from "react";
-import {AutoExpandingTextarea} from "./AutoExpandingTextarea.tsx";
-import ResultDisplay from "./ResultDisplay.tsx";
-
+import { AutoExpandingTextarea } from "./AutoExpandingTextarea.tsx";
+import { ResultDisplay } from "./ResultDisplay.tsx";
 interface ThreeColumnLayoutProps {
     jobDescription: string;
     setJobDescription: (value: string) => void;
@@ -16,31 +15,32 @@ export const ThreeColumnLayout: React.FC<ThreeColumnLayoutProps> =
     {
         const isButtonDisabled = !jobDescription || !resumeText || isLoading;
         return (
-            <div className="p-4 md:p-6 flex-grow">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div className="w-full">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
                     <AutoExpandingTextarea
-                        title="1. Описание вакансии"
-                        placeholder="Вставьте сюда полное описание вакансии..."
+                        title="1. Job Description"
+                        placeholder="Paste the full job description here..."
                         value={jobDescription}
                         onChange={(e) => setJobDescription(e.target.value)}
                     />
                     <AutoExpandingTextarea
-                        title="2. Ваше резюме"
-                        placeholder="Вставьте сюда текст вашего текущего резюме..."
+                        title="2. Your Current Resume"
+                        placeholder="Paste your current resume text here..."
                         value={resumeText}
                         onChange={(e) => setResumeText(e.target.value)}
+                        style={{ animationDelay: '0.1s' }}
                     />
                     <ResultDisplay result={result} isLoading={isLoading} />
                 </div>
-                <div className="text-center">
+                <div className="text-center animate-fade-in" style={{ animationDelay: '0.3s' }}>
                     <button
                         onClick={handleTailor}
                         disabled={isButtonDisabled}
-                        className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:shadow-none transition-all duration-300"
+                        className="px-10 py-4 bg-brand-primary text-white text-lg font-bold rounded-full shadow-lg transform hover:scale-105 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-brand-primary/50 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:shadow-none disabled:transform-none transition-all duration-300"
                     >
-                        {isLoading ? 'Анализ...' : '✨ Адаптировать резюме'}
+                        {isLoading ? 'Analyzing...' : '✨ Tailor My Resume'}
                     </button>
                 </div>
             </div>
         );
-}
+    }
