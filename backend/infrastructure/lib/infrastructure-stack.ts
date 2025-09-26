@@ -41,7 +41,7 @@ export class InfrastructureStack extends cdk.Stack {
       restApiName: 'AI Resume Tailor Service',
       description: 'This service tailors resumes using AI.',
       defaultCorsPreflightOptions: {
-        allowOrigins: apigateway.Cors.ALL_ORIGINS,
+        allowOrigins: ['http://localhost:5173', 'https://master.d1b4hagfhv6vp4.amplifyapp.com'],
         allowMethods: ['POST', 'OPTIONS'],
         allowHeaders: ['Content-Type'],
       }
