@@ -2,7 +2,7 @@ import tailwind from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
 export default {
     plugins: [
-        tailwind('tailwind.config.js'), // <-- Явно указываем путь
+        tailwind('tailwind.config.js'),
         autoprefixer,
     ],
 };
