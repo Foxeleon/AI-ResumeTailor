@@ -3,8 +3,7 @@ import { Header } from "./components/Header.tsx";
 import { ThreeColumnLayout } from "./components/ThreeColumnLayout.tsx";
 
 
-// TODO: Replace with your actual API Gateway URL after deploying the backend
-const API_ENDPOINT = "https://your-api-gateway-url.execute-api.us-east-1.amazonaws.com/prod/";
+const API_ENDPOINT = "https://e7ivy57i52.execute-api.eu-central-1.amazonaws.com/prod/tailor";
 function App() {
     const [jobDescription, setJobDescription] = useState('');
     const [resumeText, setResumeText] = useState('');
@@ -27,9 +26,15 @@ function App() {
             }
             const data = await response.json();
             setResultText(data.tailoredResume);
-        } catch (err: any) {
-            setError(err.message);
-            console.error("Fetch error:", err);
+        } catch (err) {
+            if (err instanceof Error) {
+                setError(err.message);
+                console.error("Fetch error:", err.message);
+            } else {
+                const errorMessage = 'An unexpected error occurred';
+                setError(errorMessage);
+                console.error("Fetch error:", err);
+            }
         } finally {
             setIsLoading(false);
         }
