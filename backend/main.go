@@ -90,7 +90,7 @@ The output should be only the tailored resume text, without any introductory phr
 
 	// 4. Create the request body for the OpenAI API call.
 	openAIReqBody := OpenAIRequest{
-		Model: "gpt-4о", // Using a fast and cost-effective model.
+		Model: "gpt-4о",
 		Messages: []Message{
 			{Role: "user", Content: prompt},
 		},
