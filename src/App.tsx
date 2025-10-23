@@ -60,7 +60,7 @@ function App() {
                     )}
                 </main>
                 <footer className="text-center py-6 text-sm text-brand-secondary/60">
-                    <p>Stack: React, Go, AWS Lambda.</p>
+                    <p>Demo-Project: Stack: React, Go, AWS Lambda.</p>
                 </footer>
             </div>
         </div>
